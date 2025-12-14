@@ -157,6 +157,14 @@ HTML_TEMPLATE = '''
                 loading.style.display = 'none';
             });
         });
+        
+        // Add Enter key submission functionality
+        document.getElementById('task').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                document.getElementById('taskForm').dispatchEvent(new Event('submit'));
+            }
+        });
     </script>
 </body>
 </html>
@@ -261,7 +269,7 @@ def run_task():
 if __name__ == "__main__":
     # Get host and port from environment variables or use defaults
     host = os.getenv("PHONE_AGENT_WEB_HOST", "0.0.0.0")
-    port = int(os.getenv("PHONE_AGENT_WEB_PORT", "5000"))
+    port = int(os.getenv("PHONE_AGENT_WEB_PORT", "5001"))
     
     print(f"🚀 Starting Phone Agent Web Service on http://{host}:{port}")
     print(f"📱 Web interface available at: http://{host}:{port}/")
