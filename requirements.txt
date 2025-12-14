@@ -1,5 +1,6 @@
 Pillow>=12.0.0
 openai>=2.9.0
+Flask>=3.0.0
 
 # For Model Deployment
 

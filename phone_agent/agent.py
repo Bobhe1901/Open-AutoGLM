@@ -91,23 +91,39 @@ class PhoneAgent:
         Returns:
             Final message from the agent.
         """
+        for result in self.run_stream(task):
+            if result.finished:
+                return result.message or "Task completed"
+        return "Max steps reached"
+
+    def run_stream(self, task: str):
+        """
+        Run the agent to complete a task in streaming mode.
+        Yields step results as they are generated.
+
+        Args:
+            task: Natural language description of the task.
+
+        Yields:
+            StepResult objects for each execution step.
+        """
         self._context = []
         self._step_count = 0
 
         # First step with user prompt
         result = self._execute_step(task, is_first=True)
+        yield result
 
         if result.finished:
-            return result.message or "Task completed"
+            return
 
         # Continue until finished or max steps reached
         while self._step_count < self.agent_config.max_steps:
             result = self._execute_step(is_first=False)
+            yield result
 
             if result.finished:
-                return result.message or "Task completed"
-
-        return "Max steps reached"
+                return
 
     def step(self, task: str | None = None) -> StepResult:
         """

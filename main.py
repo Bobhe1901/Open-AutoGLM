@@ -258,7 +258,7 @@ def check_model_api(base_url: str, model_name: str, api_key: str = "EMPTY") -> b
     return all_passed
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(args=None) -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         description="Phone Agent - AI-powered phone automation",
@@ -383,7 +383,7 @@ Examples:
         help="Task to execute (interactive mode if not provided)",
     )
 
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 def handle_device_commands(args) -> bool:
